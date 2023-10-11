@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
 import 'package:meals/screens/categories.dart';
+import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meals.dart';
 import 'package:meals/widgets/main_drawer.dart';
 
@@ -48,9 +49,13 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _setScreen(String idenfier) {
+    Navigator.of(context).pop(); // drawer closed;
     if (idenfier == 'filters') {
-    } else {
-      Navigator.of(context).pop(); // drawer closed;
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const FiltersScreen(),
+        ),
+      );
     }
   }
 
@@ -82,7 +87,9 @@ class _TabsScreenState extends State<TabsScreen> {
         currentIndex: _selectedPageIndex, // active tab highlighted
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.set_meal), label: 'Category'),
+            icon: Icon(Icons.set_meal),
+            label: 'Category',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: 'Favorites',
