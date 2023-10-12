@@ -14,7 +14,7 @@ final theme = ThemeData(
 
 void main() {
   runApp(const ProviderScope(
-    // ensures all the widget can use riverpod features
+    // ensures all the widget inside this app can use riverpod features
     child: App(),
   ));
 }
