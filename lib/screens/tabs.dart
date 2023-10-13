@@ -27,15 +27,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
   Map<Filter, bool> _selectedFilters = kInitialFilters;
 
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
-  }
-
   void _selectPage(int index) {
     setState(() {
       _selectedPageIndex = index;
@@ -81,7 +72,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     }).toList();
 
     Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavoriteStatus,
       availableMeal:
           availableMeals, // passing the filtered meals to categories.dart
     );
@@ -91,7 +81,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       final favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
         meals: favoriteMeals, // selected favorite meals showed;
-        onToggleFavorite: _toggleMealFavoriteStatus,
       );
       activePageTitle = 'Your favorites';
     }
