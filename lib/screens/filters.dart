@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meals/providers/filters_provider.dart';
 // import 'package:meals/screens/tabs.dart';
 // import 'package:meals/widgets/main_drawer.dart';
 
-enum Filter {
-  glutenFree,
-  lactoseFree,
-  vegetarian,
-  vegan,
-}
-
-class FiltersScreen extends StatefulWidget {
+class FiltersScreen extends ConsumerStatefulWidget {
   const FiltersScreen({
     super.key,
-    required this.currentFilters,
   });
 
-  final Map<Filter, bool> currentFilters;
-
   @override
-  State<FiltersScreen> createState() {
+  ConsumerState<FiltersScreen> createState() {
     return _FiltersScreenState();
   }
 }
 
-class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenFreeFilterSet = false;
+class _FiltersScreenState extends ConsumerState<FiltersScreen> {
+  var _glutenFreeFilterSet =
+      false; // when user press to those SwitchListTile it must be reflected instantly. So managing the state locally is needed;
   var _lactoseFreeFilterSet = false;
   var _vegetarianFreeFilterSet = false;
   var _veganFreeFilterSet = false;
@@ -32,10 +25,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   void initState() {
     super.initState();
-    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
-    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
-    _vegetarianFreeFilterSet = widget.currentFilters[Filter.vegetarian]!;
-    _veganFreeFilterSet = widget.currentFilters[Filter.vegan]!;
+    final activeFilters = ref.read(filtersProvider);
+    _glutenFreeFilterSet = activeFilters[Filter.glutenFree]!;
+    _lactoseFreeFilterSet = activeFilters[Filter.lactoseFree]!;
+    _vegetarianFreeFilterSet = activeFilters[Filter.vegetarian]!;
+    _veganFreeFilterSet = activeFilters[Filter.vegan]!;
   }
 
   @override
@@ -59,14 +53,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
       body: WillPopScope(
         // ensures what happens when the user press the back button
         onWillPop: () async {
-          Navigator.of(context).pop({
+          ref.read(filtersProvider.notifier).setFilters({
             // goes back to the tabs.dart with the values inside
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
             Filter.vegetarian: _vegetarianFreeFilterSet,
             Filter.vegan: _veganFreeFilterSet,
           });
-          return false; // ensures not to pop twice
+          //Navigator.of(context).pop();
+          return true;
         },
         child: Column(
           children: [
