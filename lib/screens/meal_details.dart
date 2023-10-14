@@ -35,17 +35,18 @@ class MealDetailsScreen extends ConsumerWidget {
             },
             icon: AnimatedSwitcher(
               duration: const Duration(
-                microseconds: 300,
+                milliseconds: 300,
               ),
               transitionBuilder: (child, animation) {
                 return RotationTransition(
-                  turns: animation,
+                  turns: Tween<double>(begin: 0.8, end: 1).animate(animation),
                   child: child,
-                ); // automatically animates as the icon status updates;
+                );
               },
-              child: Icon(isFavorite
-                  ? Icons.star
-                  : Icons.star_border), // icon is updating dynamically;
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isFavorite),
+              ),
             ),
           )
         ],
