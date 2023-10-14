@@ -33,7 +33,9 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: Icon(isFavorite ? Icons.star : Icons.star_border),
+            icon: Icon(isFavorite
+                ? Icons.star
+                : Icons.star_border), // icon is updating dynamically;
           )
         ],
       ),
