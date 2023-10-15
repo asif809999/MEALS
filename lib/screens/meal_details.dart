@@ -55,7 +55,7 @@ class MealDetailsScreen extends ConsumerWidget {
         child: Column(
           children: [
             Hero(
-              tag: meal.id,
+              tag: meal.id, //Adding Multi-Screen Transitions
               child: Image.network(
                 meal.imageUrl,
                 height: 300,
